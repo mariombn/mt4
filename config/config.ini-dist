@@ -1,0 +1,11 @@
+[Application]
+
+APP_TITLE=MT4 - Teste
+APP_VERSION=1.0.0
+
+[Database Settings]
+
+DB_HOSTNAME=120.0.0.1
+DB_DATABASE=mt4
+DB_USERNAME=root
+DB_PASSWORD=local
