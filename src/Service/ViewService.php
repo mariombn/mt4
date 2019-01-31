@@ -25,6 +25,6 @@ class ViewService implements ViewServiceInterface
 
     public function footer()
     {
-        include SYSTEM_PATH . '/src/Layout/footer.php.php';
+        include SYSTEM_PATH . '/src/Layout/footer.php';
     }
 }

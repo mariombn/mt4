@@ -5,7 +5,7 @@
 </main>
 
 <footer class="container">
-    <p>&copy; Company 2017-2018</p>
+    <p>&copy; Company <?php echo APP_TITLE ?> - <?php echo APP_VERSION ?></p>
 </footer>
 
 <!-- Optional JavaScript -->
