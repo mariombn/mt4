@@ -2,6 +2,10 @@
 
 namespace Service;
 
+/**
+ * Class ViewService
+ * @package Service
+ */
 class ViewService implements ViewServiceInterface
 {
     /** @var string */
@@ -18,16 +22,26 @@ class ViewService implements ViewServiceInterface
         return $this;
     }
 
+    /**
+     * Renderiza o header de uma View
+     */
     public function header()
     {
         include SYSTEM_PATH . '/src/Layout/header.php';
     }
 
+    /**
+     * Renderiza o footer de uma view
+     */
     public function footer()
     {
         include SYSTEM_PATH . '/src/Layout/footer.php';
     }
 
+    /**
+     * Exibe uma Mensagem de Erro na View
+     * @param $mensagem
+     */
     public function erro($mensagem)
     {
         echo "<div class='alert alert-danger' role='alert'>";
@@ -35,6 +49,10 @@ class ViewService implements ViewServiceInterface
         echo "</div>";
     }
 
+    /**
+     * Exibe uma Mensagem de Sucesso na View
+     * @param $mensagem
+     */
     public function sucesso($mensagem)
     {
         echo "<div class='alert alert-success' role='alert'>";

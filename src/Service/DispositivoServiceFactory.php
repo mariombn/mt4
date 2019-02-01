@@ -2,6 +2,10 @@
 
 namespace Service;
 
+/**
+ * Class DispositivoServiceFactory
+ * @package Service
+ */
 class DispositivoServiceFactory
 {
     public static function create()

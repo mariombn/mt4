@@ -4,6 +4,10 @@ namespace Service;
 use Entity\DispositivoEntity;
 use Repository\DispositivoRepository;
 
+/**
+ * Class DispositivoService
+ * @package Service
+ */
 class DispositivoService implements DispositivoServiceInterface
 {
     /** @var \Entity\DispositivoEntity */
@@ -12,6 +16,7 @@ class DispositivoService implements DispositivoServiceInterface
     /** @var \Repository\DispositivoRepository */
     private $dispositivoRepository;
 
+    /** @var array  */
     private $tipos = [
         'Servidor'  => 'Servidor',
         'Roteador'  => 'Roteador',
@@ -28,11 +33,23 @@ class DispositivoService implements DispositivoServiceInterface
         $this->dispositivoRepository = $dispositivoRepository;
     }
 
+    /**
+     * retorna o array com todos os Tipos
+     * @return array
+     */
     public function getTipos()
     {
         return $this->tipos;
     }
 
+    /**
+     * Inclui um novo Dispositivo
+     * @param $hostname
+     * @param $ip
+     * @param $tipo
+     * @param $fabricante
+     * @throws \Exception
+     */
     public function incluir($hostname, $ip, $tipo, $fabricante)
     {
         if (empty($hostname) || empty($ip) || empty($tipo) || empty($fabricante)) {
@@ -53,16 +70,30 @@ class DispositivoService implements DispositivoServiceInterface
         $dispositivoEntity = $this->dispositivoRepository->incluir($dispositivoEntity);
     }
 
+    /**
+     * Retorna endidade de acordo com o Id informado
+     * @param $id
+     * @return \Entity\DispositivoEntity
+     */
     public function obterPorId($id)
     {
         return $this->dispositivoRepository->obterPorId($id);
     }
 
+    /**
+     * Exclui um dispositivo
+     * @param $id
+     * @return bool
+     */
     public function excluir($id)
     {
         return $this->dispositivoRepository->excluir($id);
     }
 
+    /**
+     * Lista todos os Disposiivos cadastrados
+     * @return array
+     */
     public function listar()
     {
         return $this->dispositivoRepository->listar();
