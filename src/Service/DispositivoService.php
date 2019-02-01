@@ -53,6 +53,11 @@ class DispositivoService implements DispositivoServiceInterface
         $dispositivoEntity = $this->dispositivoRepository->incluir($dispositivoEntity);
     }
 
+    public function obterPorId($id)
+    {
+        return $this->dispositivoRepository->obterPorId($id);
+    }
+
     public function excluir($id)
     {
         return $this->dispositivoRepository->excluir($id);
@@ -61,5 +66,33 @@ class DispositivoService implements DispositivoServiceInterface
     public function listar()
     {
         return $this->dispositivoRepository->listar();
+    }
+
+    /**
+     * @param $id
+     * @param $hostname
+     * @param $ip
+     * @param $tipo
+     * @param $fabricante
+     * @throws \Exception
+     * @return \Entity\DispositivoEntity
+     */
+    public function alterar($id, $hostname, $ip, $tipo, $fabricante)
+    {
+        if (empty($hostname) || empty($ip) || empty($tipo) || empty($fabricante)) {
+            throw new \Exception("Parametros Invalidos");
+        }
+
+        if (!in_array($tipo, $this->getTipos())) {
+            throw new \Exception("O tipo informádo é invalido");
+        }
+
+        $dispositivoEntity = clone $this->dispositivoEntity;
+        $dispositivoEntity->setId($id);
+        $dispositivoEntity->setHostname($hostname);
+        $dispositivoEntity->setIp($ip);
+        $dispositivoEntity->setTipo($tipo);
+        $dispositivoEntity->setFabricante($fabricante);
+        return $this->dispositivoRepository->alterar($dispositivoEntity);
     }
 }

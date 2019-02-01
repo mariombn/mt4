@@ -2,6 +2,10 @@
 
 namespace Repository;
 
+/**
+ * Class DispositivoRepositoryFactory
+ * @package Repository
+ */
 class DispositivoRepositoryFactory
 {
     public static function create()

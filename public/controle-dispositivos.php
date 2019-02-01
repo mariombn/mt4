@@ -21,6 +21,18 @@ try {
 
     }
 
+    if (!empty($_POST['acao']) && $_POST['acao'] == 'editar') {
+        $id = $_POST['id'];
+        $hostname = $_POST['hostname'];
+        $ip = $_POST['ip'];
+        $tipo = $_POST['tipo'];
+        $fabricante = $_POST['fabricante'];
+
+        $dispositivosService->alterar($id, $hostname, $ip, $tipo, $fabricante);
+        $sucesso = "Dispositivo Alterado com Sucesso!";
+
+    }
+
     if (!empty($_GET['acao']) && $_GET['acao'] == 'excluir') {
         $dispositivosService->excluir($_GET['id']);
         $sucesso = "Dispositivo excluido com Sucesso!";
@@ -117,7 +129,7 @@ if (isset($sucesso)) {
                             <td><?php echo $dispositivo->getTipo() ?></td>
                             <td><?php echo $dispositivo->getFabricante() ?></td>
                             <td>
-                                <a href="controle-dispositivos.php?acao=editar&id=<?php echo $dispositivo->getId() ?>" class="btn badge-info">Editar</a>
+                                <a href="controle-dispositivos-edit.php?id=<?php echo $dispositivo->getId() ?>" class="btn badge-info">Editar</a>
                                 <a href="controle-dispositivos.php?acao=excluir&id=<?php echo $dispositivo->getId() ?>" class="btn badge-danger">Deletar</a>
                             </td>
                         </tr>
