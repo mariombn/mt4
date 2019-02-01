@@ -33,7 +33,7 @@ class DispositivoService implements DispositivoServiceInterface
         return $this->tipos;
     }
 
-    public function cadastrar($hostname, $ip, $tipo, $fabricante)
+    public function incluir($hostname, $ip, $tipo, $fabricante)
     {
         if (empty($hostname) || empty($ip) || empty($tipo) || empty($fabricante)) {
             throw new \Exception("Parametros Invalidos");
@@ -51,5 +51,15 @@ class DispositivoService implements DispositivoServiceInterface
         $dispositivoEntity->setFabricante($fabricante);
 
         $dispositivoEntity = $this->dispositivoRepository->incluir($dispositivoEntity);
+    }
+
+    public function excluir($id)
+    {
+        return $this->dispositivoRepository->excluir($id);
+    }
+
+    public function listar()
+    {
+        return $this->dispositivoRepository->listar();
     }
 }

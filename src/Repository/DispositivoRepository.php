@@ -46,7 +46,14 @@ class DispositivoRepository implements DispositivoRepositoryInterface
 
     public function excluir ($id)
     {
-
+        $conexao = DataBaseService::obterConexao();
+        $sql = "DELETE FROM `dispositivos` WHERE `id` = :id";
+        $prepare = $conexao->prepare($sql);
+        $prepare->bindValue(':id', $id);
+        if (!$prepare->execute()) {
+            throw new \PDOException('Erro ao incerir dados no Banco de Dados');
+        }
+        return true;
     }
 
     public function obterPorId($id)
@@ -56,6 +63,27 @@ class DispositivoRepository implements DispositivoRepositoryInterface
 
     public function listar()
     {
+        $conexao = DataBaseService::obterConexao();
+        $query = "SELECT `id`, `hostname`, `ip`, `tipo`, `fabricante` FROM `dispositivos` ORDER BY `id`";
+        $prepare = $conexao->prepare($query);
+        if (!$prepare->execute()) {
+            throw new \PDOException('Erro ao incerir dados no Banco de Dados');
+        }
 
+        $row = $prepare->fetch(\PDO::FETCH_ASSOC);
+
+        $retorno = [];
+
+        while ($row) {
+            $entity = clone $this->dispositivoEntity;
+            $entity->setId($row['id']);
+            $entity->setHostname($row['hostname']);
+            $entity->setIp($row['ip']);
+            $entity->setTipo($row['tipo']);
+            $entity->setFabricante($row['fabricante']);
+            $retorno[] = $entity;
+            $row = $prepare->fetch(\PDO::FETCH_ASSOC);
+        }
+        return $retorno;
     }
 }
