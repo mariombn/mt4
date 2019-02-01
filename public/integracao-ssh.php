@@ -16,9 +16,7 @@ if (!empty($_POST['acao']) && $_POST['acao'] == 'postSsh') {
 
     stream_set_blocking($stream, true);
     $stream_out = ssh2_fetch_stream($stream, SSH2_STREAM_STDIO);
-    echo stream_get_contents($stream_out);
-
-    exit;
+    $saida = stream_get_contents($stream_out);
 }
 
 $view->header();
@@ -32,13 +30,13 @@ $view->header();
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="formGroupExampleInput">Usuário</label>
-                    <input name="username" type="text" class="form-control" id="formGroupExampleInput" placeholder="Usuario SSH">
+                    <input name="username" type="text" class="form-control" id="formGroupExampleInput" placeholder="Usuario SSH" value="<?php echo $_POST['username'] ?>">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="formGroupExampleInput">Senha</label>
-                    <input name="password" type="password" class="form-control" id="formGroupExampleInput" placeholder="Senha SSH">
+                    <input name="password" type="password" class="form-control" id="formGroupExampleInput" placeholder="Senha SSH" value="<?php echo $_POST['password'] ?>">
                 </div>
             </div>
         </div>
@@ -57,9 +55,11 @@ $view->header();
         </div>
     </form>
 
-    <?php if (!empty($stream)): ?>
+    <?php if (!empty($saida)): ?>
         <div class="row">
-            <?php echo $stream ?>
+            <pre>
+                <?php echo $saida ?>
+            </pre>
         </div>
     <?php endif ?>
 

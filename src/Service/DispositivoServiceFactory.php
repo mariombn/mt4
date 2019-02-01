@@ -8,9 +8,10 @@ class DispositivoServiceFactory
     {
         /** @var \Entity\DispositivoEntity $dispositivoEntity */
         $dispositivoEntity = new \Entity\DispositivoEntity();
-        /** @var \Entity\DispositivoTipoEntity $dispositivoTipoEntity */
-        $dispositivoTipoEntity = new \Entity\DispositivoTipoEntity();
 
-        return new DispositivoService($dispositivoEntity, $dispositivoTipoEntity);
+        /** @var \Repository\DispositivoRepositoryFactory $dispositivoRepository */
+        $dispositivoRepository = \Repository\DispositivoRepositoryFactory::create();
+
+        return new DispositivoService($dispositivoEntity, $dispositivoRepository);
     }
 }

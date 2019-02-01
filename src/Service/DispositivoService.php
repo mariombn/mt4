@@ -1,25 +1,55 @@
 <?php
 namespace Service;
 
+use Entity\DispositivoEntity;
+use Repository\DispositivoRepository;
+
 class DispositivoService implements DispositivoServiceInterface
 {
     /** @var \Entity\DispositivoEntity */
     private $dispositivoEntity;
 
-    /** @var \Entity\DispositivoTipoEntity */
-    private $dispositivoTipoEntity;
+    /** @var \Repository\DispositivoRepository */
+    private $dispositivoRepository;
+
+    private $tipos = [
+        'Servidor'  => 'Servidor',
+        'Roteador'  => 'Roteador',
+        'Switch'    => 'Switch',
+        'Repetidor' => 'Repetidor',
+    ];
 
     public function __construct(
-        \Entity\DispositivoEntity $dispositivoEntity,
-        \Entity\DispositivoTipoEntity $dispositivoTipoEntity
-    )
-    {
+        DispositivoEntity $dispositivoEntity,
+        DispositivoRepository $dispositivoRepository
+
+    ) {
         $this->dispositivoEntity = $dispositivoEntity;
-        $this->dispositivoTipoEntity = $dispositivoTipoEntity;
+        $this->dispositivoRepository = $dispositivoRepository;
     }
 
-    public function teste()
+    public function getTipos()
     {
-        echo 'Ola';
+        return $this->tipos;
+    }
+
+    public function cadastrar($hostname, $ip, $tipo, $fabricante)
+    {
+        if (empty($hostname) || empty($ip) || empty($tipo) || empty($fabricante)) {
+            throw new \Exception("Parametros Invalidos");
+        }
+
+        if (!in_array($tipo, $this->getTipos())) {
+            throw new \Exception("O tipo informádo é invalido");
+        }
+
+        $dispositivoEntity = clone $this->dispositivoEntity;
+
+        $dispositivoEntity->setHostname($hostname);
+        $dispositivoEntity->setIp($ip);
+        $dispositivoEntity->setTipo($tipo);
+        $dispositivoEntity->setFabricante($fabricante);
+
+        $dispositivoEntity = $this->dispositivoRepository->incluir($dispositivoEntity);
     }
 }

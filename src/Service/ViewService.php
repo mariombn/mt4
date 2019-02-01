@@ -27,4 +27,18 @@ class ViewService implements ViewServiceInterface
     {
         include SYSTEM_PATH . '/src/Layout/footer.php';
     }
+
+    public function erro($mensagem)
+    {
+        echo "<div class='alert alert-danger' role='alert'>";
+        echo $mensagem;
+        echo "</div>";
+    }
+
+    public function sucesso($mensagem)
+    {
+        echo "<div class='alert alert-success' role='alert'>";
+        echo $mensagem;
+        echo "</div>";
+    }
 }

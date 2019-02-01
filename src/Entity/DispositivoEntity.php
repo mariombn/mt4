@@ -17,8 +17,8 @@ class DispositivoEntity
     /** @var string */
     private $fabricante;
 
-    /** @var \Entity\DispositivoTipoEntity */
-    private $dispositivoTipo;
+    /** @var string */
+    private $tipo;
 
     /**
      * @return int
@@ -93,22 +93,20 @@ class DispositivoEntity
     }
 
     /**
-     * @return \Entity\DispositivoTipoEntity
+     * @return string
      */
-    public function getDispositivoTipo()
+    public function getTipo()
     {
-        return $this->dispositivoTipo;
+        return $this->tipo;
     }
 
     /**
-     * @param \Entity\DispositivoTipoEntity $dispositivoTipo
+     * @param string $tipo
      * @return DispositivoEntity
      */
-    public function setDispositivoTipo($dispositivoTipo)
+    public function setTipo($tipo)
     {
-        $this->dispositivoTipo = $dispositivoTipo;
+        $this->tipo = $tipo;
         return $this;
     }
-
-
 }
