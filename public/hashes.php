@@ -26,19 +26,22 @@ try {
         if ($_POST['acao'] == 'criarHash') {
             $resultadoSHA512 = $hashSHA512->gerarHash($mensagem);
             $resultadoHMAC = $hashHMAC->gerarHash($mensagem);
+            $resultadoPessoa = 'teste';
             $sucesso = "Hash aplicado com sucesso para a mensagem: [{$mensagem}]";
+
+            $hashUsuario = (!empty($_POST['hash']) ? trim($_POST['hash']) : true);
+            if ($hashUsuario == $resultadoSHA512) {
+                $compareSHA512 = true;
+            }
+            if ($hashUsuario == $resultadoHMAC) {
+                $compareHMAC = true;
+            }
+            if ($hashUsuario == $resultadoPessoa) {
+                $comparePessoa = true;
+            }
         }
 
-        $hashUsuario = (!empty($_POST['hash']) ? trim($_POST['hash']) : true);
-        if ($hashUsuario == $resultadoSHA512) {
-            $compareSHA512 = true;
-        }
-        if ($hashUsuario == $resultadoHMAC) {
-            $compareHMAC = true;
-        }
-        if ($hashUsuario == $resultadoHMAC) {
-            $comparePessoa = true;
-        }
+
     }
 
 } catch (Exception $e) {
