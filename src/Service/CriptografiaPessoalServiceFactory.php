@@ -10,6 +10,9 @@ class CriptografiaPessoalServiceFactory
 {
     public static function create()
     {
-        return new CriptografiaPessoalService();
+        /** @var \Service\HashPessoalService $hashPessoal */
+        $hashPessoal = \Service\HashPessoalServiceFactory::create();
+
+        return new CriptografiaPessoalService($hashPessoal);
     }
 }

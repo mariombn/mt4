@@ -2,6 +2,8 @@
 
 namespace Service;
 
+use Service\HashPessoalService;
+
 /**
  * Class CriptografiaPessoalService
  * @package Service
@@ -13,6 +15,15 @@ class CriptografiaPessoalService implements CriptografiaServiceInterface
      */
     public $seed = '42';
 
+    /** @var \Service\HashPessoalService */
+    private $hashPessoalService;
+
+    public function __construct(
+        HashPessoalService $hashPessoalService
+    ) {
+        $this->hashPessoalService = $hashPessoalService;
+    }
+
     /**
      * Criptograva uma Mensagem
      * @param string $mensagem
@@ -21,7 +32,9 @@ class CriptografiaPessoalService implements CriptografiaServiceInterface
      */
     public function criptografar($mensagem, $chave)
     {
-        return $this->processaChave($chave);
+        $chaveNumerica =  $this->processaChave($chave);
+
+        return $chaveNumerica;
     }
 
     /**
@@ -42,10 +55,6 @@ class CriptografiaPessoalService implements CriptografiaServiceInterface
      */
     private function processaChave($chave)
     {
-        $superChave = 42;
-        for ($i = 0; $i < strlen($chave); $i++) {
-            $superChave = $superChave * ord($chave[$i]);
-        }
-        return $superChave;
+        return hexdec($this->hashPessoalService->gerarHash($chave));
     }
 }
