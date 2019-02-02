@@ -24,7 +24,7 @@ class HashPessoalService implements HashServiceInterface
 
         $chaveApio = 42;
         for ($i = 0; $i < strlen($string); $i++) {
-            $chaveApio =+ ord($string[$i]);
+            $chaveApio += ord($string[$i]);
         }
 
         $superChave = 1;
