@@ -8,6 +8,12 @@ namespace Service;
  */
 class CriptografiaCesarService implements CriptografiaServiceInterface
 {
+    /** @var int */
+    private $tamanhoAlfabeto = 256;
+
+    /** @var int */
+    private $scape = 32;
+
     /**
      * Criptograva uma Mensagem
      * @param string $mensagem
@@ -16,17 +22,13 @@ class CriptografiaCesarService implements CriptografiaServiceInterface
      */
     public function criptografar($mensagem, $chave)
     {
-        $tamanhoAlfabeto = 256;
-        $scape = 32;
-
         $criptografada = '';
-
         for ($i = 0; $i < strlen($mensagem); $i++) {
             $key = ord($mensagem[$i]);
             $novoCodigo = $key + $chave;
-            $novoCodigo = $novoCodigo % $tamanhoAlfabeto;
-            if ($novoCodigo >= 0 && $novoCodigo < $scape) {
-                $novoCodigo += $scape;
+            $novoCodigo = $novoCodigo % $this->tamanhoAlfabeto;
+            if ($novoCodigo >= 0 && $novoCodigo < $this->scape) {
+                $novoCodigo += $this->scape;
             }
             $criptografada .= chr($novoCodigo);
         }
@@ -41,21 +43,16 @@ class CriptografiaCesarService implements CriptografiaServiceInterface
      */
     public function descriptogravar($mensagem, $chave)
     {
-        $tamanhoAlfabeto = 256;
-        $scape = 32;
-
         $descriptografada = '';
-
         for ($i = 0; $i < strlen($mensagem); $i++) {
             $key = ord($mensagem[$i]);
             $novoCodigo = $key - $chave;
-            $novoCodigo = $novoCodigo % $tamanhoAlfabeto;
-            if ($novoCodigo >= 0 && $novoCodigo < $scape) {
-                $novoCodigo += $scape;
+            $novoCodigo = $novoCodigo % $this->tamanhoAlfabeto;
+            if ($novoCodigo >= 0 && $novoCodigo < $this->scape) {
+                $novoCodigo += $this->scape;
             }
             $descriptografada .= chr($novoCodigo);
         }
         return $descriptografada;
     }
-
 }
