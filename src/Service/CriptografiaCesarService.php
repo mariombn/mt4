@@ -8,29 +8,6 @@ namespace Service;
  */
 class CriptografiaCesarService implements CriptografiaServiceInterface
 {
-    /** @var array */
-    private $mapa;
-
-    /** @var string */
-    private $chave;
-
-    public function __construct()
-    {
-        $this->carregarMapa();
-    }
-
-    /**
-     * Metodo que carrega o array que será mapeado. Caracteres fora deste array não vão funcionar na criptografia
-     */
-    private function carregarMapa()
-    {
-        $this->mapa = array_merge(
-            range('a', 'z'),
-            range('A', 'Z'),
-            range('0', '9'),
-            [' ', '.', ',', '?', '!', '@', '#', '$', '%', '&', '*', '(', ')']);
-    }
-
     /**
      * Criptograva uma Mensagem
      * @param string $mensagem
@@ -39,14 +16,21 @@ class CriptografiaCesarService implements CriptografiaServiceInterface
      */
     public function criptografar($mensagem, $chave)
     {
-        $this->chave = $chave;
-        $mensagemArray = str_split($mensagem);
-        $cript = '';
+        $tamanhoAlfabeto = 256;
+        $scape = 32;
 
-        foreach ($mensagemArray as $letra) {
-            $cript .= $this->mapper($letra, true);
+        $criptografada = '';
+
+        for ($i = 0; $i < strlen($mensagem); $i++) {
+            $key = ord($mensagem[$i]);
+            $novoCodigo = $key + $chave;
+            $novoCodigo = $novoCodigo % $tamanhoAlfabeto;
+            if ($novoCodigo >= 0 && $novoCodigo < $scape) {
+                $novoCodigo += $scape;
+            }
+            $criptografada .= chr($novoCodigo);
         }
-        return $cript;
+        return $criptografada;
     }
 
     /**
@@ -57,27 +41,21 @@ class CriptografiaCesarService implements CriptografiaServiceInterface
      */
     public function descriptogravar($mensagem, $chave)
     {
-        $this->chave = $chave;
-        $mensagemArray = str_split($mensagem);
-        $decrip = '';
+        $tamanhoAlfabeto = 256;
+        $scape = 32;
 
-        foreach ($mensagemArray as $letra) {
-            $decrip .= $this->mapper($letra, false);
+        $descriptografada = '';
+
+        for ($i = 0; $i < strlen($mensagem); $i++) {
+            $key = ord($mensagem[$i]);
+            $novoCodigo = $key - $chave;
+            $novoCodigo = $novoCodigo % $tamanhoAlfabeto;
+            if ($novoCodigo >= 0 && $novoCodigo < $scape) {
+                $novoCodigo += $scape;
+            }
+            $descriptografada .= chr($novoCodigo);
         }
-        return $decrip;
+        return $descriptografada;
     }
 
-    /**
-     * Troca o caracter especifico de acordo com a chave
-     * @param $caracter
-     * @param $crip
-     * @return mixed
-     */
-    private function mapper($caracter, $crip)
-    {
-        if ($crip) {
-            return $this->mapa[array_search($caracter, $this->mapa) + (int) $this->chave];
-        }
-        return $this->mapa[array_search($caracter, $this->mapa) - (int) $this->chave];
-    }
 }
