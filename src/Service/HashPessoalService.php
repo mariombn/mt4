@@ -13,23 +13,6 @@ use Service\HashHMACService;
 
 class HashPessoalService implements HashServiceInterface
 {
-    /** @var string  */
-    private $seed = '42';
-
-    /** @var \Service\HashHMACService */
-    private $hashHMAC;
-
-    /** @var \Service\HashSHA512Service */
-    private $hasSHA512;
-
-    public function __construct(
-        HashHMACService $hashHMAC,
-        HashSHA512Service $hasSHA512
-    ) {
-        $this->hashHMAC = $hashHMAC;
-        $this->hasSHA512 = $hasSHA512;
-    }
-
     /**
      * Retorna Hash da String informada
      * @param string $string
@@ -37,7 +20,24 @@ class HashPessoalService implements HashServiceInterface
      */
     public function gerarHash($string)
     {
-        $string .= $this->seed;
-        return $this->hasSHA512->gerarHash($this->hashHMAC->gerarHash(md5($string)));
+        $string = '||' . $string . '||';
+
+        $chaveApio = 42;
+        for ($i = 0; $i < strlen($string); $i++) {
+            $chaveApio =+ ord($string[$i]);
+        }
+
+        $superChave = 1;
+        for ($i = 0; $i < strlen($string); $i++) {
+            $superChave += $chaveApio*10*9*8*7*6*5*4*3*2*1 * ord($string[$i]);
+        }
+
+        $hex = dechex($superChave);
+
+        $hex = str_replace('a', 'f', $hex);
+        $hex = str_replace('b', 'e', $hex);
+        $hex = str_replace('c', 'd', $hex);
+
+        return $hex;
     }
 }

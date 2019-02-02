@@ -1,14 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mario
- * Date: 02/02/19
- * Time: 18:38
- */
 
 namespace Service;
 
-
+/**
+ * Class CriptografiaPessoalService
+ * @package Service
+ */
 class CriptografiaPessoalService implements CriptografiaServiceInterface
 {
     /**
@@ -24,25 +21,7 @@ class CriptografiaPessoalService implements CriptografiaServiceInterface
      */
     public function criptografar($mensagem, $chave)
     {
-        $mensagem .= $this->seed;
-        $s = strlen($mensagem) + 1;
-        $nw = "";
-        $n = $chave;
-        for ($x = 1; $x < $s; $x++) {
-            $m = $x * $n;
-            if ($m > $s) {
-                $indice = $m % $s;
-            } else {
-                if ($m < $s) {
-                    $indice = $m;
-                }
-            }
-            if ($m % $s == 0) {
-                $indice = $x;
-            }
-            $nw = $nw . $mensagem[$indice - 1];
-        }
-        return $nw;
+        return $this->processaChave($chave);
     }
 
     /**
@@ -53,31 +32,20 @@ class CriptografiaPessoalService implements CriptografiaServiceInterface
      */
     public function descriptogravar($mensagem, $chave)
     {
-        $s = strlen($mensagem) + 1;
-        $nw = "";
-        $n = $chave;
-        for ($y = 1; $y < $s; $y++) {
-            $m = $y * $n;
-            if ($m % $s == 1) {
-                $n = $y;
-                break;
-            }
+
+    }
+
+    /**
+     * Cria um Hash numérico para a chave digitada
+     * @param $chave
+     * @return int
+     */
+    private function processaChave($chave)
+    {
+        $superChave = 42;
+        for ($i = 0; $i < strlen($chave); $i++) {
+            $superChave = $superChave * ord($chave[$i]);
         }
-        for ($x = 1; $x < $s; $x++) {
-            $m = $x * $n;
-            if ($m > $s) {
-                $indice = $m % $s;
-            } else {
-                if ($m < $s) {
-                    $indice = $m;
-                }
-            }
-            if ($m % $s == 0) {
-                $indice = $x;
-            }
-            $nw = $nw . $mensagem[$indice - 1];
-        }
-        $t = strlen($nw) - strlen($this->seed);
-        return substr($nw, 0, $t);
+        return $superChave;
     }
 }
