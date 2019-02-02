@@ -21,12 +21,14 @@ try {
         /** @var \Service\HashHMACService $criptografiaAes */
         $hashHMAC = \Service\HashHMACServiceFactory::create();
 
+        $hashPessoal = \Service\HashPessoalServiceFactory::create();
+
         $mensagem = $_POST['mensagem'];
 
         if ($_POST['acao'] == 'criarHash') {
             $resultadoSHA512 = $hashSHA512->gerarHash($mensagem);
             $resultadoHMAC = $hashHMAC->gerarHash($mensagem);
-            $resultadoPessoa = 'teste';
+            $resultadoPessoa = $hashPessoal->gerarHash($mensagem);
             $sucesso = "Hash aplicado com sucesso para a mensagem: [{$mensagem}]";
 
             $hashUsuario = (!empty($_POST['hash']) ? trim($_POST['hash']) : true);
