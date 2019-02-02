@@ -76,8 +76,8 @@ class CriptografiaCesarService implements CriptografiaServiceInterface
     private function mapper($caracter, $crip)
     {
         if ($crip) {
-            return $this->mapa[array_search($caracter, $this->mapa) + $this->chave];
+            return $this->mapa[array_search($caracter, $this->mapa) + (int) $this->chave];
         }
-        return $this->mapa[array_search($caracter, $this->mapa) - $this->chave];
+        return $this->mapa[array_search($caracter, $this->mapa) - (int) $this->chave];
     }
 }

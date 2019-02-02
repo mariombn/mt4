@@ -43,9 +43,6 @@ try {
         }
     }
 
-
-
-
 } catch (Exception $e) {
     $erro = $e->getMessage();
 }
