@@ -126,4 +126,25 @@ class DispositivoService implements DispositivoServiceInterface
         $dispositivoEntity->setFabricante($fabricante);
         return $this->dispositivoRepository->alterar($dispositivoEntity);
     }
+
+    /**
+     * Envia um comando bash para o dispositivo via SSH
+     * @param $command
+     * @param $username
+     * @param $password
+     * @param $idDispositivo
+     * @return bool|string
+     */
+    public function enviarComandoSsh($command, $username, $password, $idDispositivo)
+    {
+        $ip = $this->obterPorId($idDispositivo)->getIp();
+        $connection = ssh2_connect($ip, 22);
+        ssh2_auth_password($connection, $username, $password);
+
+        $stream = ssh2_exec($connection, $command);
+
+        stream_set_blocking($stream, true);
+        $stream_out = ssh2_fetch_stream($stream, SSH2_STREAM_STDIO);
+        return stream_get_contents($stream_out);
+    }
 }
