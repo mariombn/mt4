@@ -33,7 +33,7 @@
                     <a class="nav-link" href="/criptografia.php">Criptografia</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/comparacao-hashes.php">Comparação de Hashes</a>
+                    <a class="nav-link" href="/hashes.php">Comparação de Hashes</a>
                 </li>
             </ul>
         </div>
