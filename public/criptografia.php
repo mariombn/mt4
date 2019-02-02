@@ -5,10 +5,41 @@ require_once '../bootstrap.php';
 $view = \Service\ViewServiceFactory::create();
 
 try {
-    /** @var \Service\CriptografiaAesService $criptografiaAes */
-    $criptografiaAes = \Service\CriptografiaAesServiceFactory::create();
+    $ressultadoOrigianl = '';
+    $resultadoCesar = '';
+    $resultadoAes = '';
+    $resultadoPessoa = '';
 
-    $criptografiaAes->criptografar('Meu nome é Mario', '42');
+    if (!empty($_POST['acao'])) {
+
+        /** @var \Service\CriptografiaAesService $criptografiaAes */
+        $criptografiaAes = \Service\CriptografiaAesServiceFactory::create();
+
+        $mensagem = $_POST['mensagem'];
+        $chave    = $_POST['chave'];
+
+        if ($_POST['acao'] == 'criptografar') {
+
+            $resultadoAes = $criptografiaAes->criptografar($mensagem, $chave);
+            $sucesso = "Criptografia aplicada com sucesso usando a chave {$chave}";
+
+        }
+
+        if ($_POST['acao'] == 'decripcesar') {
+
+        }
+
+        if ($_POST['acao'] == 'decripaes') {
+            $ressultadoOrigianl = $criptografiaAes->descriptogravar($mensagem, $chave);
+            $sucesso = "Descriptografia AES aplicada com sucesso usando a chave {$chave}";
+        }
+
+        if ($_POST['acao'] == 'decrippessoal') {
+
+        }
+    }
+
+
 
 
 } catch (Exception $e) {
@@ -39,13 +70,13 @@ if (isset($sucesso)) {
                         <input type="hidden" name="acao" value="criptografar">
                         <div class="form-group">
                             <label for="mensagem">Digite o Texto para aplicar a criptografia</label>
-                            <textarea class="form-control" name="mensagem" id="mensagem" rows="3"></textarea>
+                            <textarea class="form-control" name="mensagem" id="mensagem" rows="3"><?php echo $ressultadoOrigianl ?></textarea>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Chave de Criptografia</label>
-                                    <input type="email" class="form-control" name="chave" id="chave" placeholder="">
+                                    <input type="text" class="form-control" name="chave" id="chave" placeholder="">
                                 </div>
                             </div>
                         </div>
@@ -79,7 +110,7 @@ if (isset($sucesso)) {
                             <div class="col">
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Chave de Descriptografia</label>
-                                    <input type="email" class="form-control" name="chave" id="chave" placeholder="">
+                                    <input type="text" class="form-control" name="chave" id="chave" placeholder="">
                                 </div>
                             </div>
                         </div>
@@ -104,13 +135,13 @@ if (isset($sucesso)) {
                         <input type="hidden" name="acao" value="decripaes">
                         <div class="form-group">
                             <label for="mensagem">Digite o Texto para aplicar a descriptografia</label>
-                            <textarea class="form-control" name="mensagem" id="mensagem" rows="3"></textarea>
+                            <textarea class="form-control" name="mensagem" id="mensagem" rows="3"><?php echo $resultadoAes?></textarea>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Chave de Descriptografia</label>
-                                    <input type="email" class="form-control" name="chave" id="chave" placeholder="">
+                                    <input type="text" class="form-control" name="chave" id="chave" placeholder="">
                                 </div>
                             </div>
                         </div>
@@ -141,7 +172,7 @@ if (isset($sucesso)) {
                             <div class="col">
                                 <div class="form-group">
                                     <label for="exampleFormControlInput1">Chave de Descriptografia</label>
-                                    <input type="email" class="form-control" name="chave" id="chave" placeholder="">
+                                    <input type="text" class="form-control" name="chave" id="chave" placeholder="">
                                 </div>
                             </div>
                         </div>
