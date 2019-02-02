@@ -12,6 +12,9 @@ try {
 
     if (!empty($_POST['acao'])) {
 
+        /** @var \Service\CriptografiaCesarService $criptografiaCesar */
+        $criptografiaCesar = \Service\CriptografiaCesarServiceFactory::create();
+
         /** @var \Service\CriptografiaAesService $criptografiaAes */
         $criptografiaAes = \Service\CriptografiaAesServiceFactory::create();
 
@@ -19,14 +22,15 @@ try {
         $chave    = $_POST['chave'];
 
         if ($_POST['acao'] == 'criptografar') {
-
+            $resultadoCesar = $criptografiaCesar->criptografar($mensagem, $chave);
             $resultadoAes = $criptografiaAes->criptografar($mensagem, $chave);
             $sucesso = "Criptografia aplicada com sucesso usando a chave {$chave}";
 
         }
 
         if ($_POST['acao'] == 'decripcesar') {
-
+            $ressultadoOrigianl = $criptografiaCesar->descriptogravar($mensagem, $chave);
+            $sucesso = "Descriptografia Cesar aplicada com sucesso usando a chave {$chave}";
         }
 
         if ($_POST['acao'] == 'decripaes') {
@@ -104,7 +108,7 @@ if (isset($sucesso)) {
                         <input type="hidden" name="acao" value="decripcesar">
                         <div class="form-group">
                             <label for="mensagem">Digite o Texto para aplicar a descriptografia</label>
-                            <textarea class="form-control" name="mensagem" id="mensagem" rows="3"></textarea>
+                            <textarea class="form-control" name="mensagem" id="mensagem" rows="3"><?php echo $resultadoCesar ?></textarea>
                         </div>
                         <div class="row">
                             <div class="col">
@@ -166,7 +170,7 @@ if (isset($sucesso)) {
                         <input type="hidden" name="acao" value="decrippessoal">
                         <div class="form-group">
                             <label for="mensagem">Digite o Texto para aplicar a descriptografia</label>
-                            <textarea class="form-control" name="mensagem" id="mensagem" rows="3"></textarea>
+                            <textarea class="form-control" name="mensagem" id="mensagem" rows="3"><?php echo $resultadoPessoa ?></textarea>
                         </div>
                         <div class="row">
                             <div class="col">

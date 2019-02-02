@@ -8,18 +8,20 @@ namespace Service;
  */
 class CriptografiaCesarService implements CriptografiaServiceInterface
 {
+    /** @var array */
     private $mapa;
 
+    /** @var string */
     private $chave;
-
 
     public function __construct()
     {
-        //echo '<pre>';
         $this->carregarMapa();
-
     }
 
+    /**
+     * Metodo que carrega o array que será mapeado. Caracteres fora deste array não vão funcionar na criptografia
+     */
     private function carregarMapa()
     {
         $this->mapa = array_merge(
@@ -29,31 +31,53 @@ class CriptografiaCesarService implements CriptografiaServiceInterface
             [' ', '.', ',', '?', '!', '@', '#', '$', '%', '&', '*', '(', ')']);
     }
 
+    /**
+     * Criptograva uma Mensagem
+     * @param string $mensagem
+     * @param $chave
+     * @return string
+     */
     public function criptografar($mensagem, $chave)
     {
         $this->chave = $chave;
         $mensagemArray = str_split($mensagem);
         $cript = '';
 
-        print_r($mensagemArray);
-
-        foreach ($mensagemArray as $letra)
-        {
-            $cript .= $this->mapper($letra);
+        foreach ($mensagemArray as $letra) {
+            $cript .= $this->mapper($letra, true);
         }
-        echo $cript;
+        return $cript;
     }
 
+    /**
+     * Descriptografa uma Mensagem
+     * @param string $mensagem
+     * @param $chave
+     * @return string
+     */
     public function descriptogravar($mensagem, $chave)
     {
+        $this->chave = $chave;
+        $mensagemArray = str_split($mensagem);
+        $decrip = '';
 
+        foreach ($mensagemArray as $letra) {
+            $decrip .= $this->mapper($letra, false);
+        }
+        return $decrip;
     }
 
-    private function mapper($caracter)
+    /**
+     * Troca o caracter especifico de acordo com a chave
+     * @param $caracter
+     * @param $crip
+     * @return mixed
+     */
+    private function mapper($caracter, $crip)
     {
-        return $this->mapa[array_search($caracter, $this->mapa) + $this->chave];
-        //echo array_search($caracter, $this->mapa);
-        //$k = $k + $this->chave;
-        //return $this->mapa[$k];
+        if ($crip) {
+            return $this->mapa[array_search($caracter, $this->mapa) + $this->chave];
+        }
+        return $this->mapa[array_search($caracter, $this->mapa) - $this->chave];
     }
 }
