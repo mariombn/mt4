@@ -18,12 +18,16 @@ try {
         /** @var \Service\CriptografiaAesService $criptografiaAes */
         $criptografiaAes = \Service\CriptografiaAesServiceFactory::create();
 
+        /** @var \Service\CriptografiaPessoalService $criptografiaAes */
+        $criptografiaPessoal = \Service\CriptografiaPessoalServiceFactory::create();
+
         $mensagem = $_POST['mensagem'];
         $chave    = $_POST['chave'];
 
         if ($_POST['acao'] == 'criptografar') {
             $resultadoCesar = $criptografiaCesar->criptografar($mensagem, $chave);
             $resultadoAes = $criptografiaAes->criptografar($mensagem, $chave);
+            $resultadoPessoa = $criptografiaPessoal->criptografar($mensagem, $chave);
             $sucesso = "Criptografia aplicada com sucesso usando a chave {$chave}";
 
         }
@@ -39,7 +43,8 @@ try {
         }
 
         if ($_POST['acao'] == 'decrippessoal') {
-
+            $ressultadoOrigianl = $criptografiaPessoal->descriptogravar($mensagem, $chave);
+            $sucesso = "Descriptografia AES aplicada com sucesso usando a chave {$chave}";
         }
     }
 

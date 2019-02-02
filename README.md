@@ -2,7 +2,7 @@
 
 ### Requisitos Minimos para Funcionamento
 
-- php 5.6 ou superior
+- php 5.6 ou superior com a biblioteca ssh2 instalada `sudo apt update && sudo apt install php5.6-ssh2`
 - Apache ou Nginx
 - Banco de Dados MySQL ou MariaDB
 
