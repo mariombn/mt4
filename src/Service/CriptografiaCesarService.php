@@ -22,6 +22,9 @@ class CriptografiaCesarService implements CriptografiaServiceInterface
      */
     public function criptografar($mensagem, $chave)
     {
+        if (!is_numeric($chave)) {
+            return 'A chave para essa criptografia deve ser um número inteiro';
+        }
         $criptografada = '';
         for ($i = 0; $i < strlen($mensagem); $i++) {
             $key = ord($mensagem[$i]);
@@ -43,6 +46,9 @@ class CriptografiaCesarService implements CriptografiaServiceInterface
      */
     public function descriptogravar($mensagem, $chave)
     {
+        if (!is_numeric($chave)) {
+            return 'A chave para a criptografia cesar deve ser um número inteiro';
+        }
         $descriptografada = '';
         for ($i = 0; $i < strlen($mensagem); $i++) {
             $key = ord($mensagem[$i]);
