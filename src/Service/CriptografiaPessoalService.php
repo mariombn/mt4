@@ -32,9 +32,18 @@ class CriptografiaPessoalService implements CriptografiaServiceInterface
      */
     public function criptografar($mensagem, $chave)
     {
-        $chaveNumerica =  $this->processaChave($chave);
+        $chave = $this->processaChave($chave);
 
-        return $chaveNumerica;
+        $decimalValues = [];
+        for ($i = 0; $i < strlen($mensagem); $i++) {
+            $decimalValues[] = dechex(ord($mensagem[$i]) + $chave);
+        }
+
+        $resultado = '';
+        foreach ($decimalValues as $v) {
+            $resultado .= $v;
+        }
+        return $resultado;
     }
 
     /**
@@ -45,7 +54,13 @@ class CriptografiaPessoalService implements CriptografiaServiceInterface
      */
     public function descriptogravar($mensagem, $chave)
     {
-
+        $chave = $this->processaChave($chave);
+        $mensagem = str_split($mensagem, 2);
+        $resultado = "";
+        foreach ($mensagem as $hex) {
+            $resultado .= chr(hexdec($hex) - $chave);
+        }
+        return $resultado;
     }
 
     /**
@@ -55,6 +70,8 @@ class CriptografiaPessoalService implements CriptografiaServiceInterface
      */
     private function processaChave($chave)
     {
-        return hexdec($this->hashPessoalService->gerarHash($chave));
+        $k = hexdec($this->hashPessoalService->gerarHash($chave));
+        return substr($k, 0, 1) . substr($k, -1, 1);
     }
+
 }

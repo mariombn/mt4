@@ -1,14 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mario
- * Date: 02/02/19
- * Time: 11:59
- */
 
 namespace Service;
 
-
+/**
+ * Class CriptografiaAesService
+ * @package Service
+ */
 class CriptografiaAesService implements CriptografiaServiceInterface
 {
     private $iv;
