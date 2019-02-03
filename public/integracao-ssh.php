@@ -56,7 +56,7 @@ if (isset($sucesso)) {
             </div>
             <div class="col">
                 <div class="form-group">
-                    <label for="formGroupExampleInput">Senha</label>
+                    <label for="formGroupExampleInput">Alvo</label>
                     <select name="dispositivoId" class="form-control">
                         <?php foreach ($listaDispositivos as $dispositivo): ?>
                             <option value="<?php echo $dispositivo->getId() ?>" <?php echo ($dispositivoId == $dispositivo->getId()) ? 'selected' : '' ?>><?php echo $dispositivo->getHostname() ?></option>
